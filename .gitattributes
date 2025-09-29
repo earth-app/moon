@@ -1,0 +1,5 @@
+* text eol=lf
+*.md linguist-detectable
+*.png binary
+*.jpg binary
+*.ico binary
