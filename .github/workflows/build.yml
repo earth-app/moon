@@ -1,0 +1,79 @@
+name: Build Project
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  format:
+    name: Check Code Formatting
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 'latest'
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Run Prettier
+        run: bun run prettier:check
+
+  build:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: format
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 'latest'
+          registry-url: 'https://npm.pkg.github.com'
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build Docs
+        run: bun run docs:build
+      - name: Upload artifact
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy to GitHub Pages
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+    timeout-minutes: 30
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

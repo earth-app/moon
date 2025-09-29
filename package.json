@@ -1,0 +1,21 @@
+{
+  "name": "@earth-app/moon",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview",
+    "prettier": "prettier --write .",
+    "prettier:check": "prettier --check .",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
+    "prettier": "^3.6.2",
+    "vitepress": "^1.6.4"
+  },
+  "lint-staged": {
+    "*.{ts,mts,vue,md}": "prettier --write"
+  }
+}
