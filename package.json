@@ -16,6 +16,6 @@
     "vitepress": "^1.6.4"
   },
   "lint-staged": {
-    "*.{ts,mts,vue,md}": "prettier --write"
+    "*.{ts,json,mts,vue,md}": "prettier --write"
   }
 }
