@@ -8,7 +8,7 @@ Authentication: Basic (session) or Bearer (JWT). Write operations generally requ
 
 Retrieve users with pagination and optional search/sort.
 
-Query parameters:
+### Query Parameters {#list-users-query-params}
 
 | Name   | Type   | Description           |
 | ------ | ------ | --------------------- |
@@ -17,7 +17,7 @@ Query parameters:
 | search | string | Free-text user search |
 | sort   | string | Sort expression       |
 
-### Responses
+### Responses {#list-users-responses}
 
 200 OK:
 
@@ -78,9 +78,9 @@ Request body example:
 
 ## Users by ID — /v2/users/{id}
 
-### GET /v2/users/{id}
+### GET /v2/users/{id} {#get-user-by-id}
 
-Path parameters:
+#### Path Parameters {#get-user-by-id-params}
 
 | Name | Type   | Description |
 | ---- | ------ | ----------- |
@@ -89,9 +89,7 @@ Path parameters:
 200 OK — user payload
 404 Not Found
 
-### PATCH /v2/users/{id}
-
-Path parameters: same as GET.
+### PATCH /v2/users/{id} {#patch-user-by-id}
 
 Request body example:
 
@@ -104,18 +102,14 @@ Request body example:
 403 Forbidden
 404 Not Found
 
-### DELETE /v2/users/{id}
-
-Path parameters: same as GET. Body: none.
+### DELETE /v2/users/{id} {#delete-user-by-id}
 
 204 No Content
 401 Unauthorized
 403 Forbidden
 404 Not Found
 
-### PATCH /v2/users/{id}/field_privacy
-
-Path parameters: same as GET.
+### PATCH /v2/users/{id}/field_privacy {#patch-user-field-privacy-by-id}
 
 200 OK — updated privacy
 401 Unauthorized
@@ -128,16 +122,12 @@ Body example:
 { "profile": { "show_location": false, "show_events": true } }
 ```
 
-### GET /v2/users/{id}/profile_photo
-
-Path parameters: same as GET. Body: none.
+### GET /v2/users/{id}/profile_photo {#get-user-profile-photo-by-id}
 
 200 OK (image/binary)
 404 Not Found
 
-### PUT /v2/users/{id}/profile_photo
-
-Path parameters: same as GET.
+### PUT /v2/users/{id}/profile_photo {#put-user-profile-photo-by-id}
 
 Request body: binary image upload (e.g., multipart/form-data)
 
@@ -146,9 +136,7 @@ Request body: binary image upload (e.g., multipart/form-data)
 403 Forbidden
 404 Not Found
 
-### PUT /v2/users/{id}/account_type
-
-Path parameters: same as GET.
+### PUT /v2/users/{id}/account_type {#put-user-account-type-by-id}
 
 Request body example:
 
@@ -161,9 +149,7 @@ Request body example:
 403 Forbidden
 404 Not Found
 
-### Activities — /v2/users/{id}/activities
-
-Path parameters: same as GET.
+### Activities — /v2/users/{id}/activities {#user-activities-by-id}
 
 GET: 200 OK list; 404 Not Found
 PATCH (replace list): 200 OK; 401/403/404
@@ -177,9 +163,7 @@ Request bodies (examples):
 - PUT: `{ "activity": "a_3" }`
 - DELETE: `{ "activity": "a_1" }`
 
-### Friends — /v2/users/{id}/friends
-
-Path parameters: same as GET.
+### Friends — /v2/users/{id}/friends {#user-friends-by-id}
 
 GET: 200 OK; 400 Bad Request; 404 Not Found
 PUT: 200 OK; 400/401/403/404/409
@@ -190,9 +174,7 @@ Request bodies (examples):
 - PUT: `{ "friend": "u_456" }`
 - DELETE: `{ "friend": "u_456" }`
 
-### Circle — /v2/users/{id}/circle
-
-Path parameters: same as GET.
+### Circle — /v2/users/{id}/circle {#user-circle-by-id}
 
 GET: 200 OK; 400; 404
 PUT: 200 OK; 400/401/403/404/409
@@ -203,9 +185,7 @@ Request bodies (examples):
 - PUT: `{ "user": "u_789" }`
 - DELETE: `{ "user": "u_789" }`
 
-### Email Verification
-
-Path parameters: same as GET.
+### Email Verification {#user-email-verification-by-id}
 
 POST /v2/users/{id}/send_email_verification -> 200 OK; 400/401/403/404/409
 POST /v2/users/{id}/verify_email -> 200 OK; 400/401/403/404/409
@@ -216,12 +196,11 @@ Request body example (verify_email):
 { "code": "12345678" }
 ```
 
-### Change Password — POST /v2/users/{id}/change_password
+### Change Password — POST /v2/users/{id}/change_password {#user-change-password-by-id}
 
 200 OK; 400/401/403/404
-Body includes either reset token or current password + new password.
 
-Path parameters: same as GET.
+Body includes either reset token or current password + new password.
 
 Request body examples:
 
@@ -238,7 +217,7 @@ Friends CRUD
 Circle CRUD
 send_email_verification / verify_email / change_password
 
-Path parameters:
+### Path Parameters {#get-user-by-username-params}
 
 | Name     | Type   | Description |
 | -------- | ------ | ----------- |
